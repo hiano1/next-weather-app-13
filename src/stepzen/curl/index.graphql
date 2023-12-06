@@ -1,0 +1,53 @@
+type Current {
+  interval: Int
+  relative_humidity_2m: Int
+  temperature_2m: Float
+  time: DateTime
+}
+
+type CurrentUnits {
+  interval: String
+  relative_humidity_2m: String
+  temperature_2m: String
+  time: String
+}
+
+type Hourly {
+  apparent_temperature: [Float]
+  dew_point_2m: [Float]
+  relative_humidity_2m: [Int]
+  temperature_2m: [Float]
+  time: [DateTime]
+}
+
+type HourlyUnits {
+  apparent_temperature: String
+  dew_point_2m: String
+  relative_humidity_2m: String
+  temperature_2m: String
+  time: String
+}
+
+type Root {
+  current: Current
+  current_units: CurrentUnits
+  elevation: Int
+  generationtime_ms: Float
+  hourly: Hourly
+  hourly_units: HourlyUnits
+  latitude: Float
+  longitude: Int
+  timezone: String
+  timezone_abbreviation: String
+  utc_offset_seconds: Int
+}
+
+type Query {
+  myQuery(
+    current: String
+    hourly: String
+    latitude: String
+    longitude: String
+    timezone: String
+  ): Root @rest(endpoint: "https://api.open-meteo.com/v1/forecast")
+}
