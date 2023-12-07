@@ -55,25 +55,29 @@ function CityPicker() {
             <div className="space-y-2">
                 <div className="flex items-center space-x-2 text-white/80">
                     <GlobeIcon className="w-5 h-5 text-white" />
-                    <label htmlFor="svg">Country</label>
+                    <p>Country</p>
                 </div>
                 <Select
+                    instanceId={"1"}
                     className="text-black"
                     value={selectedCountry}
                     onChange={handleSelectedCountry}
                     options={options}
+                    placeholder={"Select or Search"}
                 />
             </div>
             {selectedCountry && (
                 <div className="space-y-2">
                     <div className="flex items-center space-x-2 text-white/80">
                         <GlobeIcon className="w-5 h-5 text-white" />
-                        <label htmlFor="svg">City</label>
+                        <p>City</p>
                     </div>
                     <Select
+                        instanceId={"2"}
                         className="text-black"
                         value={selectedCity}
                         onChange={handleSelectedCity}
+                        placeholder={"Select or Search"}
                         options={City.getCitiesOfCountry(selectedCountry.value.isoCode)?.map((state) => ({
                             value: {
                                 latitude: state.latitude!,
@@ -92,14 +96,3 @@ function CityPicker() {
 }
 
 export default CityPicker;
-
-// City.getCitiesOfCountry(selectedCountry.value.isoCode)?.map((state) => ({
-//     value: {
-//         latitude: state.latitude!,
-//         longitude: state.longitude!,
-//         countryCode: state.countryCode,
-//         name: state.name,
-//         stateCode: state.stateCode,
-//     },
-//     label: state.name,
-// }))

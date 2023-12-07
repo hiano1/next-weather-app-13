@@ -6,7 +6,7 @@ type Props = {
     results: Root;
 };
 
-function TempChart({ results }: Props) {
+function RainChart({ results }: Props) {
     const hourly = results.hourly.time
         .map((time) =>
             new Date(time).toLocaleString("en-GB", {
@@ -17,22 +17,23 @@ function TempChart({ results }: Props) {
         .slice(0, 24);
     const data = hourly.map((hour, i) => ({
         시간: hour,
-        "자외선 수치": results.hourly.uv_index[i],
-        "기온 (C)": results.hourly.temperature_2m[i],
+        "강수 확률": results.hourly.precipitation_probability[i],
+        습도: results.hourly.relative_humidity_2m[i],
     }));
-    const dataFormatter = (number: number) => `${number}°C`;
+    const dataFormatter = (number: number) => `${number}%`;
 
     return (
         <Card>
-            <Title>기온 & 자외선</Title>
+            <Title>강수 확률</Title>
             <AreaChart
                 className="mt-6"
                 data={data}
                 showLegend
                 index="시간"
-                categories={["기온 (C)", "자외선 수치"]}
-                colors={["yellow", "rose"]}
+                categories={["강수 확률", "습도"]}
+                colors={["blue", "sky"]}
                 minValue={0}
+                maxValue={100}
                 valueFormatter={dataFormatter}
                 yAxisWidth={40}
             />
@@ -40,4 +41,4 @@ function TempChart({ results }: Props) {
     );
 }
 
-export default TempChart;
+export default RainChart;

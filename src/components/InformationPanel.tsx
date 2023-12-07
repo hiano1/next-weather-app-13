@@ -1,6 +1,7 @@
 import CityPicker from "./CityPicker";
 import Image from "next/image";
 import { MoonIcon, SunIcon } from "@heroicons/react/solid";
+import weatehrCodetoString from "@/lib/weatherCodetoString";
 
 type Props = {
     city: string;
@@ -10,6 +11,7 @@ type Props = {
 };
 
 function InformationPanel({ city, lat, long, results }: Props) {
+    // console.log(results.hourly.time);
     return (
         <div className="bg-gradient-to-br from-[#394F68] to-[#183B7E] text-white p-10">
             <div className="pb-5">
@@ -44,17 +46,24 @@ function InformationPanel({ city, lat, long, results }: Props) {
             </div>
 
             <hr className="my-10" />
-            <div>
+            <div className="flex items-center justify-between">
                 <div>
-                    {/* <Image 
-                        src={`https://www.weatherbit.io/static/img/icons/${}.png`}
-                        alt="label"
+                    <Image
+                        src={`https://www.weatherbit.io/static/img/icons/${
+                            weatehrCodetoString[results.current.weather_code].icon
+                        }.png`}
+                        alt={weatehrCodetoString[results.current.weather_code].label}
                         width={75}
                         height={75}
-                    /> */}
-                    <div>
-                        <p>{results.current.temperature_2m.toFixed(1)}°C</p>
-                        {/* <p>{weatehrCodetoString[results.current.weathercode].label}</p> */}
+                    />
+                    <div className="flex items-center justify-between space-x-10">
+                        <p className="text-6xl font-semibold">
+                            {results.current.temperature_2m.toFixed(1)}
+                            {results.current_units.temperature_2m}
+                        </p>
+                        <p className="text-right font-extralight text-lg">
+                            {weatehrCodetoString[results.current.weather_code].label}
+                        </p>
                     </div>
                 </div>
             </div>
