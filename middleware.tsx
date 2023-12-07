@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(req: NextRequest) {
-    const { nextUrl: url, geo } = req;
-    const country = geo?.country || "US";
-    url.searchParams.set("country", country);
+    const { nextUrl, geo } = req;
+    const country = geo?.country || "Korea";
+    const city = geo?.city || "Seoul";
+    nextUrl.searchParams.set("country", country);
+    nextUrl.searchParams.set("city", city);
 
-    return NextResponse.rewrite(url);
+    return NextResponse.rewrite(nextUrl);
 }

@@ -2,16 +2,19 @@
 
 import CityPicker from "@/components/CityPicker";
 import { Card, Subtitle, Divider } from "@tremor/react";
+import { RequestData } from "next/dist/server/web/types";
 import Image from "next/image";
-import { useRouter } from "next/router";
+import { useParams } from "next/navigation";
 
 export const getServerSideProps = ({ query }: any) => ({
     props: query,
 });
 
 function MainView(props: any) {
-    console.log(props);
+    console.log(props.city);
 
+    const route = useParams();
+    console.log(route);
     return (
         <>
             <div className="min-h-screen bg-gradient-to-br from-[#394F68] to-[#183B7E]p-10 flex flex-col justify-center items-center">
