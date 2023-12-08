@@ -36,7 +36,7 @@ function MainView() {
                 {/* <div className="w-12 h-12 rounded-full fixed bg-red-200 top-4 right-4">btn</div> */}
 
                 <Card className="max-w-4xl mw-auto shadow-xl">
-                    <p className="text-7xl font-bold text-center mb-6">Todays Weather</p>
+                    <p className="text-7xl font-bold text-center mb-6 dark:text-white">Todays Weather</p>
                     <Subtitle className="text-sm text-center">
                         Powered by OpenAI, Next.js, Tailwind CSS, Tremor, Vercel
                     </Subtitle>
