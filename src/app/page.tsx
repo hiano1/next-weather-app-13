@@ -1,5 +1,11 @@
-import MainView from "@/components/MainView";
+import MainView from "@/view/MainView";
+import SideView from "@/view/SideView";
 
 export default function Home() {
-    return <MainView />;
+    return (
+        <>
+            <SideView />
+            <MainView />
+        </>
+    );
 }
