@@ -4,18 +4,16 @@ import { MoonIcon, SunIcon } from "@heroicons/react/solid";
 import weatehrCodetoString from "@/lib/weatherCodetoString";
 
 type Props = {
-    city: string;
     lat: string;
     long: string;
     results: Root;
 };
 
-function InformationPanel({ city, lat, long, results }: Props) {
+function InformationPanel({ lat, long, results }: Props) {
     // console.log(results.hourly.time);
     return (
         <div className="bg-gradient-to-br from-[#394F68] to-[#183B7E] text-white p-6">
             <div className="pb-5">
-                <h1 className="text-6xl font-bold">{decodeURI(city)}</h1>
                 <p className="text-xs text-gray-400">
                     Lat/Long: {lat}, {long}
                 </p>
