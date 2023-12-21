@@ -1,13 +1,6 @@
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/experimental-nextjs-app-support/ssr";
-type Props = {
-    params: {
-        city: string;
-        lat: string;
-        long: string;
-    };
-};
-
+import type { NextApiRequest, NextApiResponse } from "next";
 const query = gql`
     query myQuery(
         $current: String
@@ -142,25 +135,24 @@ const query = gql`
     }
 `;
 
-export async function POST(request: Request) {
-    const { weatherData, lat, long } = await request.json();
-    const { loading, error, data } = useQuery(query, {
-        variables: {
-            current:
-                "temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover",
-            hourly: "temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,snow_depth,weather_code,cloud_cover,visibility,uv_index,uv_index_clear_sky",
-            daily: "weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,daylight_duration,sunshine_duration,uv_index_max,uv_index_clear_sky_max,precipitation_sum,rain_sum,showers_sum,snowfall_sum,precipitation_hours,precipitation_probability_max",
-            latitude: lat,
-            longitude: long,
-            models: "best_match",
-            timezone: "Asia/Tokyo",
-        },
-    });
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
+    // const { lat, long } = await req;
+    // const { error, data } = useQuery(query, {
+    //     variables: {
+    //         current:
+    //             "temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover",
+    //         hourly: "temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,snow_depth,weather_code,cloud_cover,visibility,uv_index,uv_index_clear_sky",
+    //         daily: "weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,daylight_duration,sunshine_duration,uv_index_max,uv_index_clear_sky_max,precipitation_sum,rain_sum,showers_sum,snowfall_sum,precipitation_hours,precipitation_probability_max",
+    //         latitude: lat,
+    //         longitude: long,
+    //         models: "best_match",
+    //         timezone: "Asia/Tokyo",
+    //     },
+    // });
 
-    if (loading) return "a";
-    if (error) {
-        return "b";
-    }
-    const result: Root = data.myQuery;
-    return result;
+    // if (error) {
+    //     return "error!";
+    // }
+    // const result: Root = data.myQuery;
+    res.status(200).json({ message: "aaa" });
 }
