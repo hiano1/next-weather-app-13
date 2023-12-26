@@ -90,49 +90,38 @@ function Home() {
 
     return (
         <>
-            <div className="max-w-4xl mx-auto w-full">
-                <div className="px-5 flex flex-col gap-8 justify-center">
-                    {/* <Image
-                            className="absolute top-4 cursor-pointer dark:stroke-black hover:scale-125 z-10"
-                            src={"/menu.svg"}
-                            width={40}
-                            height={40}
-                            alt="menu"
-                            onClick={(e) => {
-                                toggleSideMenu(e);
-                            }}
-                        /> */}
-
-                    <div className="flex gap-6">
-                        <div className="flex flex-col text-white gap-4 font-semibold ">
-                            <p className="text-6xl">{addressName}</p>
-                            <div className="flex font-light text-6xl">
-                                <span>8</span>
-                                <span className="text-4xl">º</span>
-                            </div>
-                            <div className="font-light text-sm">
-                                <p>12º / -2º 체감온도 5º</p>
-                                <p>UPDATE : 12/19 화 12:26</p>
-                            </div>
+            {/* todo data binding */}
+            <div className="flex flex-col gap-8 justify-center">
+                <div className="flex gap-6">
+                    <div className="flex flex-col text-white gap-4 font-semibold ">
+                        <p className="text-6xl">{addressName}</p>
+                        <div className="flex font-light text-6xl">
+                            <span>8</span>
+                            <span className="text-4xl">º</span>
                         </div>
-                        <div className="w-1/3 flex justify-center items-center relative">
-                            <Image src={"/vercel.svg"} alt="testIcon" fill={true} priority={true} />
+                        <div className="font-light text-sm">
+                            <p>12º / -2º 체감온도 5º</p>
+                            <p>UPDATE : 12/19 화 12:26</p>
                         </div>
                     </div>
-                    {/* 현재 시간기준 기온,날씨 그래프 (가로) */}
-                    {/* <TempChart results={} /> */}
-                    {/* 어제 포함 / 현재 요일기준 기온,날씨 그래프 (세로?) */}
-                    {/* 미세먼지, 일출일몰, 자외선지수 ,습도 ,바람 카드*/}
-                    <Card className="bg-[#ffffff3f]">
-                        {/* <Badge
+                    {/* todo add var img */}
+                    <div className="w-1/3 flex justify-center items-center relative">
+                        <Image src={"/vercel.svg"} alt="testIcon" fill={true} priority={true} />
+                    </div>
+                </div>
+                {/* 현재 시간기준 기온,날씨 그래프 (가로) */}
+                {/* <TempChart results={} /> */}
+                {/* 어제 포함 / 현재 요일기준 기온,날씨 그래프 (세로?) */}
+                {/* 미세먼지, 일출일몰, 자외선지수 ,습도 ,바람 카드*/}
+                <Card className="bg-[#ffffff3f]">
+                    {/* <Badge
                         className="mb-5 cursor-pointer bg-blue-700 hover:bg-pink-300 text-white"
                         onClick={getCurrentPositionWeather}
                     >
                         Get Current Position Weather
                     </Badge> */}
-                    </Card>
-                    <Card className="bg-[#ffffff3f]"></Card>
-                </div>
+                </Card>
+                <Card className="bg-[#ffffff3f]"></Card>
             </div>
         </>
     );
