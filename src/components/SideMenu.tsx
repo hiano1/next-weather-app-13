@@ -3,8 +3,9 @@
 import { useState } from "react";
 import CityPicker from "./CityPicker";
 import Clock from "react-live-clock";
-import { ArrowRightIcon, MoonIcon } from "@heroicons/react/solid";
+import { ArrowRightIcon, MoonIcon, SunIcon } from "@heroicons/react/solid";
 import Image from "next/image";
+import { Switch, TextInput } from "@tremor/react";
 
 function SideMenu() {
     const [searchValue, setSearchValue] = useState("");
@@ -29,27 +30,17 @@ function SideMenu() {
                     */}
                     {/* not login */}
                     <div className="flex justify-center items-center gap-2 cursor-pointer text-sm font-semibold">
-                        {/* <div className="text-2xl hover:bg-blue-100 rounded-full p-1">Google</div>
-                        <div className="text-2xl hover:bg-blue-100 rounded-full p-1">KaKao</div> */}
                         <p>Login Now Save Your Location</p>
                         <ArrowRightIcon width={20} />
                     </div>
                     <hr className="my-3" />
                     {/* 검색창 / 지도로 검색*/}
-                    {/* <div className="flex flex-col justify-center min-h-[30%]">
-                        <input
-                            className="p-2 rounded-2xl"
-                            type="text"
-                            value={searchValue}
-                            onChange={getSearchValue}
-                            placeholder="Search Location"
-                        />
-                        {searchValue == "" ?? (
-                            <div className="pt-3 text-sm min-h-[8rem]">
-                                <p>Can not find resently</p>
-                            </div>
-                        )}
-                    </div> */}
+                    <TextInput
+                        className="my-4"
+                        placeholder="Search Location"
+                        value={searchValue}
+                        onChange={getSearchValue}
+                    />
                     <CityPicker />
                     <hr className="my-3" />
                 </div>
@@ -72,14 +63,10 @@ function SideMenu() {
                     </div>
                     <hr className="py-2" />
                     {/* 테마모드 */}
-                    <div className="w-full bg-blue-400 mb-4 rounded-full flex justify-between overflow-hidden">
-                        <input className="w-1/3 bg-white" type="button" value={"Light"} />
-                        <input className="w-1/3 bg-blue-200" type="button" value={"Weather"} />
-                        {/* <input className="w-1/3 bg-gray-700 text-white" type="button" value={"Dark"} /> */}
-                        <div className="w-1/3 bg-gray-700 text-white flex justify-center gap-1 cursor-pointer hover:font-semibold">
-                            <MoonIcon width={18} />
-                            <p>Dark</p>
-                        </div>
+                    <div className="flex justify-end pb-2 gap-2 text-white">
+                        <SunIcon width={24} />
+                        <Switch className="flex items-center" color={"#ffffff"} />
+                        <MoonIcon width={24} />
                     </div>
                 </div>
             </div>
