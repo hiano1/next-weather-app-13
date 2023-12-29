@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Card } from "@tremor/react";
 import { useCallback, useEffect, useState } from "react";
 import OverView from "@/components/OverView";

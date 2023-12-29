@@ -6,7 +6,6 @@ type Props = {
     message: string;
     warning: boolean;
 };
-
 function CalloutCard({ message, warning }: Props) {
     return (
         <Callout

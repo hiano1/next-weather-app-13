@@ -14,9 +14,13 @@ function SideMenu() {
         console.log(e.target.value);
     };
 
+    const [isSwitchOn, setIsSwitchOn] = useState<boolean>(false);
+    const handleSwitchChange = (value: boolean) => {
+        setIsSwitchOn(value);
+    };
+
     return (
         <>
-            {/* 하단 */}
             <div className="h-full md:border-r-4 px-4 flex flex-col justify-between">
                 {/* 상단 */}
                 <div className="pt-4">
@@ -65,7 +69,14 @@ function SideMenu() {
                     {/* 테마모드 */}
                     <div className="flex justify-end pb-2 gap-2 text-white">
                         <SunIcon width={24} />
-                        <Switch className="flex items-center" color={"#ffffff"} />
+                        <Switch
+                            id="switch"
+                            name="switch"
+                            className="flex items-center"
+                            color={"#ffffff"}
+                            checked={isSwitchOn}
+                            onChange={handleSwitchChange}
+                        />
                         <MoonIcon width={24} />
                     </div>
                 </div>

@@ -16,8 +16,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <body className={`${inter.className} antialiased`}>
                 <ApolloProvider>
                     {/* 배경색 , 영상 날씨에 따라 변경 */}
-                    <div className="h-screen flex flex-col bg-slate-400">
-                        <div className="flex flex-col md:flex-row m-5 border-4 rounded-xl h-full">
+                    <div className="h-screen flex flex-col bg-[#3a3a3a] md:items-center text-white">
+                        <div className="flex flex-col m-5 border-4 rounded-xl h-full md:max-w-6xl md:flex-row md:w-full">
                             <div className="w-full flex-none md:w-72">
                                 <SideMenu />
                             </div>

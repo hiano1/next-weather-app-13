@@ -9,7 +9,7 @@ type Props = {
 function OverView({ addressName }: Props) {
     return (
         <div className="flex gap-6">
-            <div className="flex flex-col text-white gap-4 font-semibold ">
+            <div className="flex flex-col gap-4 font-semibold">
                 <p className="text-6xl">{addressName}</p>
                 <div className="flex font-light text-6xl">
                     <span>8</span>
