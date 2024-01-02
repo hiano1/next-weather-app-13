@@ -6,15 +6,13 @@ import OverView from "@/components/OverView";
 import useSWR from "swr";
 
 function Home() {
-    //날씨는 그냥 api로
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
-    const { data, error, isLoading } = useSWR(`/api/getWeatherApi`, fetcher);
 
-    console.log(data);
+    const [isResetPosition, setIsResetPosition] = useState(true);
+    const [addressName, setAddressName] = useState("");
+    const [url, setUrl] = useState("");
 
-    // const [isResetPosition, setIsResetPosition] = useState(true);
-    // const [position, setPosition] = useState<number[]>();
-    // const [addressName, setAddressName] = useState("");
+    //날씨는 그냥 api로
 
     //메뉴 아이콘 토글 TODO
     // const toggleSideMenu = (e: React.MouseEvent<HTMLImageElement>) => {
@@ -35,30 +33,33 @@ function Home() {
     //     };
     // }, [sideRef]);
 
-    // const getCurrentPositionWeather = useCallback(
-    //     () =>
-    //         isResetPosition &&
-    //         navigator.geolocation.getCurrentPosition(
-    //             (pos: GeolocationPosition) => {
-    //                 setPosition([pos.coords.latitude, pos.coords.longitude]);
-    //                 setIsResetPosition(false);
-    //             },
-    //             () => {
-    //                 const lat = 37.5326;
-    //                 const long = 127.024612;
+    const getCurrentPositionWeather = () => {
+        isResetPosition &&
+            navigator.geolocation.getCurrentPosition(
+                (pos: GeolocationPosition) => {
+                    setUrl(`/api/getWeatherApi?lat=${pos.coords.latitude}&long=${pos.coords.longitude}`);
 
-    //                 setPosition([lat, long]);
-    //                 setIsResetPosition(false);
-    //                 //위치 사용 on 안내 alert
-    //             },
-    //             {
-    //                 enableHighAccuracy: false,
-    //                 maximumAge: 30000,
-    //                 timeout: 100,
-    //             },
-    //         ),
-    //     [isResetPosition],
-    // );
+                    setIsResetPosition(false);
+                },
+                () => {
+                    setUrl(`/api/getWeatherApi?lat=${37.5326}&long=${127.024612}`);
+
+                    setIsResetPosition(false);
+                    //위치 사용 on 안내 alert
+                },
+                {
+                    enableHighAccuracy: false,
+                    maximumAge: 30000,
+                    timeout: 100,
+                },
+            );
+    };
+
+    if (isResetPosition) {
+    } else {
+    }
+    // 그냥 이부분을 comp로 이동시키고 use suspense
+    // const { data, error, isLoading } = useSWR(url, fetcher);
 
     // getCurrentPositionWeather();
 

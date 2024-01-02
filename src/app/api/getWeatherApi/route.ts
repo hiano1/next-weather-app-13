@@ -135,8 +135,12 @@ const query = gql`
         }
     }
 `;
+type Props = {
+    lat: number;
+    long: number;
+};
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest, { lat, long }: Props) {
     // Provided by Vercel
     // if (request.geo) {
     //     const geo = {
@@ -156,7 +160,7 @@ export async function GET(request: NextRequest) {
         lat: 37.5326,
         long: 127.024612,
     };
-    return NextResponse.json(request);
+    return NextResponse.json(lat);
 }
 
 // Self-hosting
