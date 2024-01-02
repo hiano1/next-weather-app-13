@@ -1,6 +1,7 @@
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/experimental-nextjs-app-support/ssr";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
+
 const query = gql`
     query myQuery(
         $current: String
@@ -135,24 +136,50 @@ const query = gql`
     }
 `;
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
-    // const { lat, long } = await req;
-    // const { error, data } = useQuery(query, {
-    //     variables: {
-    //         current:
-    //             "temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover",
-    //         hourly: "temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,snow_depth,weather_code,cloud_cover,visibility,uv_index,uv_index_clear_sky",
-    //         daily: "weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,daylight_duration,sunshine_duration,uv_index_max,uv_index_clear_sky_max,precipitation_sum,rain_sum,showers_sum,snowfall_sum,precipitation_hours,precipitation_probability_max",
-    //         latitude: lat,
-    //         longitude: long,
-    //         models: "best_match",
-    //         timezone: "Asia/Tokyo",
-    //     },
-    // });
-
-    // if (error) {
-    //     return "error!";
+export async function GET(request: NextRequest) {
+    // Provided by Vercel
+    // if (request.geo) {
+    //     const geo = {
+    //         city: request.geo.city,
+    //         cuntry: request.geo.country,
+    //         region: request.geo.region,
+    //         lat: request.geo.latitude,
+    //         long: request.geo.longitude,
+    //     };
+    //     return NextResponse.json(geo);
     // }
-    // const result: Root = data.myQuery;
-    res.status(200).json({ message: "aaa" });
+
+    const defulatGeo = {
+        city: "강남",
+        cuntry: "서울",
+        region: "한국",
+        lat: 37.5326,
+        long: 127.024612,
+    };
+    return NextResponse.json(request);
 }
+
+// Self-hosting
+// function getGeo(request: NextRequest) {
+//     let ip = request.headers.get("X-Forwarded-For");
+//     // Use a third-party service to lookup the geographic information
+// }
+
+// const { lat, long } = await req;
+// const { error, data } = useQuery(query, {
+//     variables: {
+//         current:
+//             "temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover",
+//         hourly: "temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,snow_depth,weather_code,cloud_cover,visibility,uv_index,uv_index_clear_sky",
+//         daily: "weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,daylight_duration,sunshine_duration,uv_index_max,uv_index_clear_sky_max,precipitation_sum,rain_sum,showers_sum,snowfall_sum,precipitation_hours,precipitation_probability_max",
+//         latitude: lat,
+//         longitude: long,
+//         models: "best_match",
+//         timezone: "Asia/Tokyo",
+//     },
+// });
+
+// if (error) {
+//     return "error!";
+// }
+// const result: Root = data.myQuery;

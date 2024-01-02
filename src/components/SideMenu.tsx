@@ -60,8 +60,13 @@ function SideMenu() {
                                 day: "numeric",
                             })}
                         </p>
-                        <p className="text-4xl font-bold uppercase">
-                            <Clock format="hh:mm a" timezone={Intl.DateTimeFormat().resolvedOptions().timeZone} />
+                        <p className="text-4xl font-bold uppercase static">
+                            <Clock
+                                format="hh:mm:ss a"
+                                timezone={Intl.DateTimeFormat().resolvedOptions().timeZone}
+                                noSsr
+                                ticking
+                            />
                         </p>
                         <p className="font-extralight">TimeZone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</p>
                     </div>
