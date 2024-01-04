@@ -141,18 +141,6 @@ type Props = {
 };
 
 export async function GET(request: NextRequest, { lat, long }: Props) {
-    // Provided by Vercel
-    // if (request.geo) {
-    //     const geo = {
-    //         city: request.geo.city,
-    //         cuntry: request.geo.country,
-    //         region: request.geo.region,
-    //         lat: request.geo.latitude,
-    //         long: request.geo.longitude,
-    //     };
-    //     return NextResponse.json(geo);
-    // }
-
     const defulatGeo = {
         city: "강남",
         cuntry: "서울",

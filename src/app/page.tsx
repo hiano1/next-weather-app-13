@@ -1,50 +1,33 @@
 "use client";
 
 import { Card } from "@tremor/react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import OverView from "@/components/OverView";
-import useSWR from "swr";
 
-function Home() {
-    const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
+export default function Home() {
+    type Coordinates = { lat: number; long: number };
+    const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
     const [isResetPosition, setIsResetPosition] = useState(true);
-    const [addressName, setAddressName] = useState("");
-    const [url, setUrl] = useState("");
 
-    //날씨는 그냥 api로
-
-    //메뉴 아이콘 토글 TODO
-    // const toggleSideMenu = (e: React.MouseEvent<HTMLImageElement>) => {
-    //     e.stopPropagation();
-    //     setIsOpen((prevState) => !prevState);
-    // };
-
-    // 사이드메뉴 오픈시 바깥영역 클릭하면 닫힘
-    // useEffect(() => {
-    //     function clickOutSide(e: MouseEvent) {
-    //         if (sideRef.current && !sideRef.current.contains(e.target)) {
-    //             setIsOpen(false);
-    //         }
-    //     }
-    //     document.addEventListener("mousedown", clickOutSide);
-    //     return () => {
-    //         document.removeEventListener("mousedown", clickOutSide);
-    //     };
-    // }, [sideRef]);
+    // set coordinates
     useEffect(() => {
-        console.log("isResetPosition 값이 설정됨");
         isResetPosition &&
             navigator.geolocation.getCurrentPosition(
                 (pos: GeolocationPosition) => {
-                    setUrl(`/api/getWeatherApi?lat=${pos.coords.latitude}&long=${pos.coords.longitude}`);
-                    console.log(pos.coords.latitude);
+                    setCoordinates({
+                        lat: pos.coords.latitude,
+                        long: pos.coords.longitude,
+                    });
                     setIsResetPosition(false);
+                    console.log("set user location");
                 },
                 () => {
-                    setUrl(`/api/getWeatherApi?lat=${37.5326}&long=${127.024612}`);
-                    console.log(37.5326);
+                    setCoordinates({
+                        lat: 37.5326,
+                        long: 127.024612,
+                    });
                     setIsResetPosition(false);
+                    console.log("set default location");
                     //위치 사용 on 안내 alert
                 },
                 {
@@ -53,90 +36,35 @@ function Home() {
                     timeout: 1000,
                 },
             );
-        return () => {
-            console.log("isResetPosition 가 바뀌기 전..");
-        };
     }, [isResetPosition]);
 
-    const getCurrentPositionWeather = () => {
-        isResetPosition &&
-            navigator.geolocation.getCurrentPosition(
-                (pos: GeolocationPosition) => {
-                    setUrl(`/api/getWeatherApi?lat=${pos.coords.latitude}&long=${pos.coords.longitude}`);
-
-                    setIsResetPosition(false);
-                },
-                () => {
-                    setUrl(`/api/getWeatherApi?lat=${37.5326}&long=${127.024612}`);
-
-                    setIsResetPosition(false);
-                    //위치 사용 on 안내 alert
-                },
-                {
-                    enableHighAccuracy: false,
-                    maximumAge: 30000,
-                    timeout: 1000,
-                },
-            );
-    };
-    // 그냥 이부분을 comp로 이동시키고 use suspense
-    // const { data, error, isLoading } = useSWR(url, fetcher);
-
-    // getCurrentPositionWeather();
-
-    // const getKakaoAdress = (lat: number, long: number) => {
-    //     const url = `https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=${long}&y=${lat}`;
-    //     const adress = fetch(url, {
-    //         headers: {
-    //             Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_API_KEY}`,
-    //         },
-    //     })
-    //         .then((response) => response.json())
-    //         .catch((error) => {
-    //             console.error("KakaoApiError : ", error);
-    //         });
-    //     return adress;
-    // };
-
-    // useEffect(() => {
-    //     if (position) {
-    //         getKakaoAdress(position[0], position[1]).then((adress) => {
-    //             setAddressName(adress.documents[0].region_2depth_name);
-    //         });
-    //         const weahter = fetch(`/api/getWeatherApi?lat=${position[0]}&long=${position[1]}`)
-    //             .then((response) => response.json())
-    //             .catch((error) => {
-    //                 console.error("WeatherApiError : ", error);
-    //             });
-    //     }
-    // }, [position]);
-    // weather api=> data
-
-    //합쳐서 comp 전달
-
-    return (
-        <>
-            {/* todo data binding */}
-            <div className="flex flex-col gap-8 justify-center">
-                {/* over view */}
-                {/* need Suspense? */}
-                {/* <OverView addressName={addressName} /> */}
-                {/* 현재 시간기준 기온,날씨 그래프 (가로) */}
-                {/* <TempChart results={} /> */}
-                {/* 어제 포함 / 현재 요일기준 기온,날씨 그래프 (세로?) */}
-                {/* 미세먼지, 일출일몰, 자외선지수 ,습도 ,바람 카드 */}
-                <Card className="bg-[#ffffff3f]">
-                    {/* <Badge
+    if (coordinates) {
+        return (
+            <>
+                {/* todo data binding */}
+                <div className="flex flex-col gap-8 justify-center">
+                    {/* over view */}
+                    <OverView coordinates={coordinates} />
+                    {/* 현재 시간기준 기온,날씨 그래프 (가로) */}
+                    {/* <TempChart results={} /> */}
+                    {/* 어제 포함 / 현재 요일기준 기온,날씨 그래프 (세로?) */}
+                    {/* 미세먼지, 일출일몰, 자외선지수 ,습도 ,바람 카드 */}
+                    <Card className="bg-[#ffffff3f]">
+                        {/* <Badge
                         className="mb-5 cursor-pointer bg-blue-700 hover:bg-pink-300 text-white"
                         onClick={getCurrentPositionWeather}
                     >
                         Get Current Position Weather
                     </Badge> */}
-                </Card>
-                {/* <Card className="bg-[#ffffff3f]">{data}</Card> */}
-            </div>
+                    </Card>
+                    {/* <Card className="bg-[#ffffff3f]">{data}</Card> */}
+                </div>
+            </>
+        );
+    }
+    return (
+        <>
+            <div className="flex justify-center text-center">is Loading..</div>
         </>
     );
 }
-
-export default Home;

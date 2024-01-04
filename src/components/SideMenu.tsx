@@ -7,6 +7,25 @@ import { ArrowRightIcon, MoonIcon, SunIcon } from "@heroicons/react/solid";
 import Image from "next/image";
 import { Switch, TextInput } from "@tremor/react";
 
+//메뉴 아이콘 토글 TODO
+// const toggleSideMenu = (e: React.MouseEvent<HTMLImageElement>) => {
+//     e.stopPropagation();
+//     setIsOpen((prevState) => !prevState);
+// };
+
+// 사이드메뉴 오픈시 바깥영역 클릭하면 닫힘
+// useEffect(() => {
+//     function clickOutSide(e: MouseEvent) {
+//         if (sideRef.current && !sideRef.current.contains(e.target)) {
+//             setIsOpen(false);
+//         }
+//     }
+//     document.addEventListener("mousedown", clickOutSide);
+//     return () => {
+//         document.removeEventListener("mousedown", clickOutSide);
+//     };
+// }, [sideRef]);
+
 function SideMenu() {
     const [searchValue, setSearchValue] = useState("");
     const getSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
