@@ -160,7 +160,7 @@ export async function GET(request: NextRequest, { lat, long }: Props) {
         lat: 37.5326,
         long: 127.024612,
     };
-    return NextResponse.json(lat);
+    return NextResponse.json("a");
 }
 
 // Self-hosting

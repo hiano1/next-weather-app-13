@@ -32,6 +32,31 @@ function Home() {
     //         document.removeEventListener("mousedown", clickOutSide);
     //     };
     // }, [sideRef]);
+    useEffect(() => {
+        console.log("isResetPosition 값이 설정됨");
+        isResetPosition &&
+            navigator.geolocation.getCurrentPosition(
+                (pos: GeolocationPosition) => {
+                    setUrl(`/api/getWeatherApi?lat=${pos.coords.latitude}&long=${pos.coords.longitude}`);
+                    console.log(pos.coords.latitude);
+                    setIsResetPosition(false);
+                },
+                () => {
+                    setUrl(`/api/getWeatherApi?lat=${37.5326}&long=${127.024612}`);
+                    console.log(37.5326);
+                    setIsResetPosition(false);
+                    //위치 사용 on 안내 alert
+                },
+                {
+                    enableHighAccuracy: false,
+                    maximumAge: 30000,
+                    timeout: 1000,
+                },
+            );
+        return () => {
+            console.log("isResetPosition 가 바뀌기 전..");
+        };
+    }, [isResetPosition]);
 
     const getCurrentPositionWeather = () => {
         isResetPosition &&
@@ -50,14 +75,10 @@ function Home() {
                 {
                     enableHighAccuracy: false,
                     maximumAge: 30000,
-                    timeout: 100,
+                    timeout: 1000,
                 },
             );
     };
-
-    if (isResetPosition) {
-    } else {
-    }
     // 그냥 이부분을 comp로 이동시키고 use suspense
     // const { data, error, isLoading } = useSWR(url, fetcher);
 
