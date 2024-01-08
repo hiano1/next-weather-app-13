@@ -4,10 +4,7 @@ type Props = {
     long: number;
 };
 
-export function GET(request: NextRequest) {
-    const searchParams = request.nextUrl.searchParams;
-    const lat = searchParams.get("lat");
-    const long = searchParams.get("long");
+export async function GET(request: NextRequest, { lat, long }: Props) {
     const url = `https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=${long}&y=${lat}`;
     const adress = fetch(url, {
         headers: {

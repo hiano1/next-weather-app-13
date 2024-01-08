@@ -1,8 +1,9 @@
 "use client";
 
-import { Card } from "@tremor/react";
 import { useEffect, useState } from "react";
-import OverView from "@/components/OverView";
+import ShowDefaultWeather from "@/components/ShowDefaultWeather";
+import { SWRConfig } from "swr";
+import { Corben } from "next/font/google";
 
 export default function Home() {
     type Coordinates = { lat: number; long: number };
@@ -44,21 +45,26 @@ export default function Home() {
                 {/* todo data binding */}
                 <div className="flex flex-col gap-8 justify-center">
                     {/* over view */}
-                    <OverView coordinates={coordinates} />
                     {/* 현재 시간기준 기온,날씨 그래프 (가로) */}
                     {/* <TempChart results={} /> */}
                     {/* 어제 포함 / 현재 요일기준 기온,날씨 그래프 (세로?) */}
                     {/* 미세먼지, 일출일몰, 자외선지수 ,습도 ,바람 카드 */}
-                    <Card className="bg-[#ffffff3f]">
-                        {/* <Badge
+                    {/* <Badge
                         className="mb-5 cursor-pointer bg-blue-700 hover:bg-pink-300 text-white"
                         onClick={getCurrentPositionWeather}
                     >
                         Get Current Position Weather
                     </Badge> */}
-                    </Card>
                     {/* <Card className="bg-[#ffffff3f]">{data}</Card> */}
                 </div>
+                <SWRConfig
+                    value={{
+                        refreshInterval: 600000,
+                        fetcher: (resource, init) => fetch(resource, init).then((res) => res.json()),
+                    }}
+                >
+                    <ShowDefaultWeather coordinates={coordinates} />
+                </SWRConfig>
             </>
         );
     }
