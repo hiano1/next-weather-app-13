@@ -26,7 +26,7 @@ function TempChart({ results }: Props) {
         <Card>
             <Title>기온 & 자외선</Title>
             <AreaChart
-                className="mt-6"
+                className="h-48 mt-4"
                 data={data}
                 showLegend
                 index="시간"
@@ -34,7 +34,7 @@ function TempChart({ results }: Props) {
                 colors={["yellow", "rose"]}
                 minValue={0}
                 valueFormatter={dataFormatter}
-                yAxisWidth={40}
+                yAxisWidth={30}
             />
         </Card>
     );

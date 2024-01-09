@@ -1,7 +1,6 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { ApolloProvider } from "@/provider/ApolloProvider";
-import SideMenu from "@/components/SideMenu";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,16 +11,12 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en">
-            <body className={`${inter.className} antialiased`}>
+        <html lang="ko">
+            <body className={`${inter.className} antialiased bg-[#3a3a3a] h-screen`}>
                 <ApolloProvider>
-                    {/* 배경색 , 영상 날씨에 따라 변경 */}
-                    <div className="h-screen flex flex-col bg-[#3a3a3a] md:items-center text-white">
-                        <div className="flex flex-col m-5 border-4 rounded-xl h-full md:max-w-6xl md:flex-row md:w-full">
-                            <div className="w-full flex-none md:w-72">
-                                <SideMenu />
-                            </div>
-                            <div className="flex-grow p-6 md:overflow-y-auto md:p-12">{children}</div>
+                    <div className="md:h-full flex flex-col md:items-center text-white p-5">
+                        <div className="flex flex-col  border-4 rounded-xl h-full md:max-w-6xl md:flex-row md:w-full">
+                            {children}
                         </div>
                     </div>
                 </ApolloProvider>

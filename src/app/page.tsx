@@ -1,16 +1,33 @@
 "use client";
-
 import { useEffect, useState } from "react";
-import ShowDefaultWeather from "@/components/ShowDefaultWeather";
+import DefaultWeather from "@/app/view/ShowDefaultWeather";
 import { SWRConfig } from "swr";
-import { Corben } from "next/font/google";
+import { PlusCircleIcon } from "@heroicons/react/solid";
+import SideMenu from "@/app/view/ShowSideMenu";
+import { useSearchParams } from "next/navigation";
+
+type Coordinates = { lat: number; long: number };
 
 export default function Home() {
-    type Coordinates = { lat: number; long: number };
+    const searchParams = useSearchParams();
+
+    const x = searchParams.get("x");
+    const y = searchParams.get("y");
+
     const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
     const [isResetPosition, setIsResetPosition] = useState(true);
 
     // set coordinates
+    useEffect(() => {
+        x &&
+            y &&
+            setCoordinates({
+                lat: parseInt(y),
+                long: parseInt(x),
+            });
+        setIsResetPosition(false);
+    }, [x, y]);
+
     useEffect(() => {
         isResetPosition &&
             navigator.geolocation.getCurrentPosition(
@@ -42,35 +59,43 @@ export default function Home() {
     if (coordinates) {
         return (
             <>
-                {/* todo data binding */}
-                <div className="flex flex-col gap-8 justify-center">
-                    {/* over view */}
-                    {/* 현재 시간기준 기온,날씨 그래프 (가로) */}
-                    {/* <TempChart results={} /> */}
-                    {/* 어제 포함 / 현재 요일기준 기온,날씨 그래프 (세로?) */}
-                    {/* 미세먼지, 일출일몰, 자외선지수 ,습도 ,바람 카드 */}
-                    {/* <Badge
-                        className="mb-5 cursor-pointer bg-blue-700 hover:bg-pink-300 text-white"
-                        onClick={getCurrentPositionWeather}
-                    >
-                        Get Current Position Weather
-                    </Badge> */}
-                    {/* <Card className="bg-[#ffffff3f]">{data}</Card> */}
-                </div>
                 <SWRConfig
                     value={{
                         refreshInterval: 600000,
                         fetcher: (resource, init) => fetch(resource, init).then((res) => res.json()),
                     }}
                 >
-                    <ShowDefaultWeather coordinates={coordinates} />
+                    <div className="w-full flex-none md:w-72">
+                        <SideMenu />
+                    </div>
+                    <div className="md:overflow-y-scroll w-full">
+                        <DefaultWeather coordinates={coordinates} />
+                    </div>
                 </SWRConfig>
+                {/* todo data binding */}
+                {/* <div className="flex flex-col gap-8 justify-center"> */}
+                {/* over view */}
+                {/* 현재 시간기준 기온,날씨 그래프 (가로) */}
+                {/* <TempChart results={} /> */}
+                {/* 어제 포함 / 현재 요일기준 기온,날씨 그래프 (세로?) */}
+                {/* 미세먼지, 일출일몰, 자외선지수 ,습도 ,바람 카드 */}
+                {/* <Badge
+                        className="mb-5 cursor-pointer bg-blue-700 hover:bg-pink-300 text-white"
+                        onClick={getCurrentPositionWeather}
+                    >
+                        Get Current Position Weather
+                    </Badge> */}
+                {/* <Card className="bg-[#ffffff3f]">{data}</Card> */}
+                {/* </div> */}
             </>
         );
     }
     return (
         <>
-            <div className="flex justify-center text-center">is Loading..</div>
+            <div className="w-full min-h-screen flex flex-col items-center justify-center text-slate-500">
+                <PlusCircleIcon className="h-24 w-24 animate-spin text-yellow-500" color="yellow" />
+                <h1 className="text-6xl font-bold text-center mb-10 animate-pulse">Loading Page...</h1>
+            </div>
         </>
     );
 }

@@ -1,20 +1,32 @@
 "use client";
 
-import Image from "next/image";
 import useSWR from "swr";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/experimental-nextjs-app-support/ssr";
-import RainChart from "./RainChart";
-import TempChart from "./TempChart";
-import { Card } from "@tremor/react";
+import RainChart from "../../components/RainChart";
+import TempChart from "../../components/TempChart";
+import { SunIcon } from "@heroicons/react/solid";
+import InformationPanel from "../../components/InformationPanel";
+import StatCardList from "@/components/StatCardList";
 
 type Props = {
     coordinates: { lat: number; long: number };
 };
+type KaKaoAdress = {
+    address_name: string;
+    code: string;
+    region_1depth_name: string;
+    region_2depth_name: string;
+    region_3depth_name: string;
+    region_4depth_name: string;
+    region_type: string;
+    x: number;
+    y: number;
+};
 
 export default function ShowDefaultWeather({ coordinates }: Props) {
-    const { data: adress } = useSWR(`/api/getKakaoAdress?lat=${coordinates.lat}&long=${coordinates.long}`);
-    const { data: weather, error } = useQuery(
+    const { data: adress } = useSWR<KaKaoAdress>(`/api/getKakaoAdress?lat=${coordinates.lat}&long=${coordinates.long}`);
+    const { data: weather } = useQuery(
         gql`
             query myQuery(
                 $current: String
@@ -162,34 +174,25 @@ export default function ShowDefaultWeather({ coordinates }: Props) {
         },
     );
 
-    if (!weather) {
-        return "error!";
+    if (!weather || !adress) {
+        return (
+            <div className="bg-[#3a3a3a] min-h-screen flex flex-col items-center justify-center text-slate-500">
+                <SunIcon className="h-24 w-24 animate-bounce text-yellow-500" color="yellow" />
+                <h1 className="text-6xl font-bold text-center mb-10 animate-pulse">Loading Weather...</h1>
+            </div>
+        );
     }
+
     const result: Root = weather.myQuery;
-    if (!adress) return "loading...";
+
     return (
         <>
-            <Card className="bg-[#ffffff3f] flex gap-6">
-                <div className="flex flex-col gap-4 font-semibold">
-                    <p className="text-6xl">{coordinates.lat}</p>
-                    <div className="flex font-light text-6xl">
-                        <span>8</span>
-                        <span className="text-4xl">º</span>
-                    </div>
-                    <div className="font-light text-sm">
-                        <p>12º / -2º 체감온도 5º</p>
-                        <p>UPDATE : 12/19 화 12:26</p>
-                    </div>
-                </div>
-            </Card>
-
-            {/* todo add var img */}
-            <div className="w-1/3 flex justify-center items-center relative">
-                <Image src={"/vercel.svg"} alt="testIcon" fill={true} priority={true} />
+            <div className="text-white p-8 flex flex-col gap-6">
+                <InformationPanel results={result} adress={adress} />
+                <StatCardList result={result} />
+                <RainChart results={result} />
+                <TempChart results={result} />
             </div>
-            {/* <p>adress : {adress.toString}</p> */}
-            <RainChart results={result} />
-            <TempChart results={result} />
         </>
     );
 }

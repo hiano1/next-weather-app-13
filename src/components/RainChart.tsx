@@ -26,7 +26,7 @@ function RainChart({ results }: Props) {
         <Card>
             <Title>강수 확률</Title>
             <AreaChart
-                className="mt-6"
+                className="h-48 mt-4"
                 data={data}
                 showLegend
                 index="시간"
@@ -35,7 +35,7 @@ function RainChart({ results }: Props) {
                 minValue={0}
                 maxValue={100}
                 valueFormatter={dataFormatter}
-                yAxisWidth={40}
+                yAxisWidth={30}
             />
         </Card>
     );

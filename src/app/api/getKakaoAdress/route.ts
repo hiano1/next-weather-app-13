@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-type Props = {
-    lat: number;
-    long: number;
-};
 
-export async function GET(request: NextRequest, { lat, long }: Props) {
+export async function GET(request: NextRequest) {
+    const { searchParams } = new URL(request.url);
+    const lat = searchParams.get("lat");
+    const long = searchParams.get("long");
+
     const url = `https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=${long}&y=${lat}`;
-    const adress = fetch(url, {
+    const adress = await fetch(url, {
         headers: {
             Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_API_KEY}`,
         },
@@ -15,8 +15,7 @@ export async function GET(request: NextRequest, { lat, long }: Props) {
         .catch((error) => {
             console.error("KakaoApiError : ", error);
         });
-
-    return NextResponse.json(adress);
+    return NextResponse.json(adress.documents[0]);
 }
 
 // export async function GET(request: NextRequest, { lat, long }: Props) {
