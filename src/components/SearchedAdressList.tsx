@@ -19,7 +19,7 @@ function SearchedAdressList({ input }: Props) {
     if (data)
         return (
             <div
-                className="p-2 border-2 rounded-lg"
+                className="p-2 border-2 rounded-lg hover:bg-white hover:text-black cursor-pointer"
                 onClick={() => {
                     router.replace(`/?x=${data.x}&y=${data.y}`, { shallow: false });
                     router.refresh();
